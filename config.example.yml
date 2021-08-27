@@ -1,0 +1,14 @@
+commands:
+  gnome: gnome-terminal -e "ssh -i ~/.ssh/id_rsa  %username%@%host%"
+  gnome-password: gnome-terminal -e "sshpass -p %password% ssh -o StrictHostKeyChecking=no %username%@%host%"
+
+groups:
+  - name: General
+    defaults:
+      command: gnome
+      username: user
+      password: password
+      ssh_key: ~/.ssh/id_rsa
+    servers:
+    - {name: office.pc, host: 10.0.10.10, username: username, password: password,  command: gnome-password }
+
