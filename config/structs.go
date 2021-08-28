@@ -65,14 +65,14 @@ func (c *Configuration) GetServerByName(name string) *map[string]string {
 				for k, v := range server {
 					serverConfiguration[k] = v
 				}
-				serverFound = true
-				break
+				goto SERVER_FOUND
 			}
 		}
 	}
 	if !serverFound {
 		return nil
 	}
+SERVER_FOUND:
 	return &serverConfiguration
 }
 
