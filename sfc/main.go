@@ -18,7 +18,7 @@ var (
 )
 
 func init() {
-	flag.StringVar(&pathConfig, "c", "~/.sfc.conf.yml", "Configuration file")
+	flag.StringVar(&pathConfig, "c", "~/.fc.conf.yml", "Configuration file")
 	flag.StringVar(&profile, "p", "", "Name of profile for usage")
 	flag.BoolVar(&list, "l", false, "Print list of hosts")
 	flag.BoolVar(&printHostnames, "h", false, "Print hosts")
@@ -68,7 +68,7 @@ func main() {
 	}
 	fmt.Println(`SSH fast connect v0.1
 
-Usage: sfc <server name 1> [<server name 2>...] 
+Usage: fc <server name 1> [<server name 2>...] 
 `)
 }
 

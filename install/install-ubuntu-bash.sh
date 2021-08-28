@@ -5,26 +5,26 @@
 set -e
 
 echo "Install sfc binary"
-wget -O ~/.local/bin/sfc https://github.com/meklis/ssh-fast-connect/releases/download/0.3/sfc-linux
-chmod +x ~/.local/bin/sfc
+wget -O ~/.local/bin/fc https://github.com/meklis/ssh-fast-connect/releases/download/0.3/fc-linux
+chmod +x ~/.local/bin/fc
 
 echo "Add word complete to bashrc"
 cat <<EOF >>  ~/.bashrc
-#complete function for sfc
-_sfc_complete(){
-    COMPREPLY=(`sfc -h`)
+#complete function for fx
+_fc_complete(){
+    COMPREPLY=(`fc -h`)
     cur="${COMP_WORDS[COMP_CWORD]}"
     if [[ ${COMP_CWORD} == 1 ]] ; then
-        COMPREPLY=( $(compgen -W "`sfc -h`" -- ${cur}) )
+        COMPREPLY=( $(compgen -W "`fc -h`" -- ${cur}) )
         return 0
     fi
 }
-complete -F _sfc_complete sfc
+complete -F _fc_complete fc
 
 EOF
 
-cat <<EOF > ~/.sfc.conf.yml
-# Profile executed when 'sfc <server name>'
+cat <<EOF > ~/.fc.conf.yml
+# Profile executed when 'fc <server name>'
 profiles:
   gnome: gnome-terminal  --title='%name%' --tab --active -e "ssh -i ~/.ssh/id_rsa  %username%@%address%"
   gnome-password: gnome-terminal  --title='%name%' --tab --active -e "sshpass -p %password% ssh -o StrictHostKeyChecking=no %username%@%address%"
@@ -49,10 +49,10 @@ groups:
 EOF
 
 cat <<EOF
-sfc v0.1 installed!
+sfc v0.3 installed!
 Configure you file before using!
-Config file - ~/.sfc.conf.yml
+Config file - ~/.fc.conf.yml
 
-Usage: sfc <server name 1> [<server name 2>...]
+Usage: fc <server name 1> [<server name 2>...]
 EOF
 set +e
