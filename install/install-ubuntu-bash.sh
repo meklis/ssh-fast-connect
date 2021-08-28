@@ -5,7 +5,7 @@
 set -e
 
 echo "Install sfc binary"
-wget -O ~/.local/bin/sfc https://github.com/meklis/ssh-fast-connect/releases/download/0.1/sfc-linux
+wget -O ~/.local/bin/sfc https://github.com/meklis/ssh-fast-connect/releases/download/0.2/sfc-linux
 chmod +x ~/.local/bin/sfc
 
 echo "Add word complete to bashrc"
@@ -26,8 +26,9 @@ EOF
 cat <<EOF > ~/.sfc.conf.yml
 # Profile executed when 'sfc <server name>'
 profiles:
-  gnome: gnome-terminal  --title='%name%' --tab --active -e "ssh -i ~/.ssh/id_rsa  %username%@%host%"
-  gnome-password: gnome-terminal  --title='%name%' --tab --active -e "sshpass -p %password% ssh -o StrictHostKeyChecking=no %username%@%host%"
+  gnome: gnome-terminal  --title='%name%' --tab --active -e "ssh -i ~/.ssh/id_rsa  %username%@%address%"
+  gnome-password: gnome-terminal  --title='%name%' --tab --active -e "sshpass -p %password% ssh -o StrictHostKeyChecking=no %username%@%address%"
+
 
 # 'Defaults' set in commands by default
 # If default parameters not setted in server - they will be set by from defaults
@@ -40,9 +41,11 @@ groups:
       username: user
       password: password
       ssh_key: ~/.ssh/id_rsa
-    servers:
-      - {name: office.pc, host: 10.0.10.10, username: username, password: password }
-
+# Sources must return json or yaml content
+# Source can be executable script and return content of yaml or json
+#    servers_source: ./servers.yml
+    static_servers:
+      - {name: office.pc, address: 10.0.10.10, username: username, password: password }
 EOF
 
 cat <<EOF

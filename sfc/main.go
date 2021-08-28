@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"flag"
 	"fmt"
 	"os"
@@ -13,11 +14,13 @@ var (
 	conf           = new(config.Configuration)
 	printHostnames bool
 	profile        string
+	list           bool
 )
 
 func init() {
 	flag.StringVar(&pathConfig, "c", "~/.sfc.conf.yml", "Configuration file")
 	flag.StringVar(&profile, "p", "", "Name of profile for usage")
+	flag.BoolVar(&list, "l", false, "Print list of hosts")
 	flag.BoolVar(&printHostnames, "h", false, "Print hosts")
 	flag.Parse()
 }
@@ -28,6 +31,20 @@ func main() {
 		panic(err)
 	}
 	var args = flag.Args()
+
+	conf.LoadServersFromSource()
+	if list {
+		for _, group := range conf.Groups {
+			fmt.Printf("Group %s, parameters %s\n", group.Name, mapToJson(group.Defaults))
+
+			for _, server := range group.Servers {
+				fmt.Println(mapToJson(server))
+			}
+			fmt.Println("")
+
+		}
+		os.Exit(0)
+	}
 
 	if printHostnames {
 		for _, group := range conf.Groups {
@@ -74,4 +91,9 @@ func runSshConnect(serverName string) error {
 		return err
 	}
 	return nil
+}
+
+func mapToJson(data map[string]string) string {
+	d, _ := json.Marshal(data)
+	return string(d)
 }
