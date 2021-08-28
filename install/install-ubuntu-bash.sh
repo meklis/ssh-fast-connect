@@ -10,7 +10,7 @@ chmod +x ~/.local/bin/sc
 
 mkdir -p ~/.sc
 echo "Add word complete to bashrc"
-cat <<EOF >>  ~/.bashrc
+cat <<'EOF' >>  ~/.bashrc
 #complete function for sc
 _sc_complete(){
     COMPREPLY=(`sc -h`)
@@ -24,7 +24,7 @@ complete -F _sc_complete sc
 
 EOF
 
-cat <<EOF > ~/.sc/conf.yml
+cat <<'EOF' > ~/.sc/conf.yml
 # Profile executed when 'fc <server name>'
 profiles:
   gnome: gnome-terminal  --title='%name%' --tab --active -e "ssh -i ~/.ssh/id_rsa  %username%@%address%"
