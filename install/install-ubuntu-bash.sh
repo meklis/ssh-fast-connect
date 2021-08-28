@@ -7,7 +7,7 @@ set -e
 echo "Install sc binary"
 #wget -O ~/.local/bin/sc https://github.com/meklis/ssh-fast-connect/releases/download/0.3/sc-linux
 sudo wget -O /usr/local/bin/sc https://github.com/meklis/ssh-fast-connect/releases/download/0.3/sc-linux
-sudo chmod +x ~/.local/bin/sc
+sudo chmod +x /usr/local/bin/sc
 
 mkdir -p ~/.sc
 echo "Add word complete to bashrc"
