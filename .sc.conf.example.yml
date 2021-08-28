@@ -1,0 +1,21 @@
+# Profile executed when 'sfc <server name>'
+profiles:
+  gnome: gnome-terminal  --title='%name%' --tab --active -e "ssh -i ~/.ssh/id_rsa  %username%@%address%"
+  gnome-password: gnome-terminal  --title='%name%' --tab --active -e "sshpass -p %password% ssh -o StrictHostKeyChecking=no %username%@%address%"
+
+
+# 'Defaults' set in commands by default
+# If default parameters not setted in server - they will be set by from defaults
+# Parameter 'command' is required for work
+# Another parameters is variable and depend on from command
+groups:
+  - name: General
+    defaults:
+      profile: gnome
+      username: user
+      password: password
+    # Sources must return json or yaml content
+    # Source can be executable script and return content of yaml or json
+    # servers_source: ./servers.yml
+    static_servers:
+      - {name: office.pc, address: 10.0.10.10, username: username, password: password }
