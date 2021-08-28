@@ -18,7 +18,7 @@ var (
 )
 
 func init() {
-	flag.StringVar(&pathConfig, "c", "~/.fc.conf.yml", "Configuration file")
+	flag.StringVar(&pathConfig, "c", "~/.sc/conf.yml", "Configuration file")
 	flag.StringVar(&profile, "p", "", "Name of profile for usage")
 	flag.BoolVar(&list, "l", false, "Print list of hosts")
 	flag.BoolVar(&printHostnames, "h", false, "Print hosts")
