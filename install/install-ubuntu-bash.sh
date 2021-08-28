@@ -26,9 +26,8 @@ EOF
 cat <<EOF > ~/.sfc.conf.yml
 # Profile executed when 'sfc <server name>'
 profiles:
-  gnome: gnome-terminal -e "ssh -i ~/.ssh/id_rsa  %username%@%host%"
-  gnome-password: gnome-terminal -e "sshpass -p %password% ssh -o StrictHostKeyChecking=no %username%@%host%"
-  ssh: ssh -i ~/.ssh/id_rsa  %username%@%host%
+  gnome: gnome-terminal  --title='%name%' --tab --active -e "ssh -i ~/.ssh/id_rsa  %username%@%host%"
+  gnome-password: gnome-terminal  --title='%name%' --tab --active -e "sshpass -p %password% ssh -o StrictHostKeyChecking=no %username%@%host%"
 
 # 'Defaults' set in commands by default
 # If default parameters not setted in server - they will be set by from defaults
