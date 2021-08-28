@@ -5,10 +5,10 @@
 ```
 wget -O - https://raw.githubusercontent.com/meklis/ssh-fast-connect/master/install/install-ubuntu-bash.sh | bash
 ```
-and edit you configuration file placed in ~/.sfc.conf.yml
+and edit you configuration file placed in ~/.sc/conf.yml
 
 ## Usage 
 ```
-sfc <server name 1> [<server name 2>...]
+sc <server name 1> [<server name 2>...]
 ```
 
