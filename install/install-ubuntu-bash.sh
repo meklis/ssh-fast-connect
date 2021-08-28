@@ -5,7 +5,7 @@
 set -e
 
 echo "Install sfc binary"
-wget -O ~/.local/bin/sfc https://github.com/meklis/ssh-fast-connect/releases/download/0.2/sfc-linux
+wget -O ~/.local/bin/sfc https://github.com/meklis/ssh-fast-connect/releases/download/0.3/sfc-linux
 chmod +x ~/.local/bin/sfc
 
 echo "Add word complete to bashrc"
