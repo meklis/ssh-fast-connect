@@ -99,7 +99,8 @@ func executeScript(path string) (string, error) {
 		path = strings.Replace(path, "~/", usr.HomeDir+"/", 1)
 	}
 	cmd := exec.Command(path)
-	output, err := cmd.CombinedOutput()
+	cmd.Env = os.Environ()
+	output, err := cmd.Output()
 	return string(output), err
 }
 
