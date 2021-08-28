@@ -9,12 +9,16 @@ import (
 )
 
 var (
-	pathConfig string
-	conf       = new(config.Configuration)
+	pathConfig     string
+	conf           = new(config.Configuration)
+	printHostnames bool
+	profile        string
 )
 
 func init() {
-	flag.StringVar(&pathConfig, "c", "config.yml", "Configuration file")
+	flag.StringVar(&pathConfig, "c", "~/.sfc.conf.yml", "Configuration file")
+	flag.StringVar(&profile, "p", "", "Name of profile for usage")
+	flag.BoolVar(&printHostnames, "h", false, "Print hosts")
 	flag.Parse()
 }
 
@@ -23,28 +27,51 @@ func main() {
 	if err := config.LoadConfig(pathConfig, conf); err != nil {
 		panic(err)
 	}
-	var args = os.Args
+	var args = flag.Args()
 
-	//Run by argument
-	if len(args) == 2 {
-		serverName := args[1]
-		server := conf.GetServerByName(serverName)
-		if server == nil {
-			fmt.Printf("Server with name %s not found\n", serverName)
-			os.Exit(1)
+	if printHostnames {
+		for _, group := range conf.Groups {
+			for _, server := range group.Servers {
+				fmt.Println(server["name"])
+			}
 		}
-		exec := new(executor.Executor)
-		if _, err := exec.SetConfig(conf).PrepareCommand(server); err != nil {
-			fmt.Println(err.Error())
-			os.Exit(2)
-		}
-		if output, err := exec.Exec(); err != nil {
-			fmt.Println(output)
-			fmt.Println(err.Error())
-			os.Exit(2)
-		}
-		fmt.Printf("Open connection to '%s'\n", serverName)
 		os.Exit(0)
 	}
-	fmt.Println("Unknown arguments")
+
+	//Work with executor
+	if len(args) >= 1 {
+		for _, serverName := range args {
+			if err := runSshConnect(serverName); err != nil {
+				fmt.Println(err.Error())
+			} else {
+				fmt.Printf("Open connection to '%s'\n", serverName)
+			}
+		}
+		os.Exit(1)
+	}
+	fmt.Println(`SSH fast connect v0.1
+
+Usage: sfc <server name 1> [<server name 2>...] 
+`)
+}
+
+func runSshConnect(serverName string) error {
+	server := conf.GetServerByName(serverName)
+	if server == nil {
+		return fmt.Errorf("server with name %s not found", serverName)
+	}
+	exec := new(executor.Executor)
+	if profile != "" {
+		serv := *server
+		serv["profile"] = profile
+		server = &serv
+	}
+	if _, err := exec.SetConfig(conf).PrepareCommand(server); err != nil {
+		return err
+	}
+	if output, err := exec.Exec(); err != nil {
+		fmt.Println(output)
+		return err
+	}
+	return nil
 }

@@ -1,7 +1,7 @@
 package config
 
 type Configuration struct {
-	Commands map[string]string `yaml:"commands"`
+	Profiles map[string]string `yaml:"profiles"`
 	Groups   []ServerGroup     `yaml:"groups"`
 }
 
